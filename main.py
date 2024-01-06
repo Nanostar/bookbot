@@ -5,10 +5,10 @@ def main():
     print(f"-- Begin report of {book_path} ---")
     print(f"{num_words} words found in the document\n")
     num_letters = get_letter_count(text)
-    
-    for [i,j] in num_letters:
-        if i.isalpha():
-            print(f"The '{i}' character was found {j} times")
+    sorted_letters = dict_to_list(num_letters)
+    for items in sorted_letters:
+        if items["char"].isalpha():
+            print(f"The '{items["char"]}' character was found {items["num"]} times")
     print("--- End Report ---")
 
 
@@ -29,9 +29,16 @@ def get_letter_count(text):
             letterDict[s] = letterDict[s] + 1
         else:
             letterDict[s] = 1
-    letterList = list(letterDict.items())
-    letterList.sort()
-    return letterList
+    return letterDict
 
+def dict_to_list(letterDict):
+    sorted_list = []
+    for c in letterDict:
+        sorted_list.append({"char": c, "num": letterDict[c]})
+    sorted_list.sort(reverse=True, key=sort_on)
+    return sorted_list
+
+def sort_on(d):
+    return d["num"]
 
 main()
